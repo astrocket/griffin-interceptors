@@ -3,7 +3,7 @@
 module Griffin
   module Interceptors
     module Server
-      class ClearConnectionInterceptor < GRPC::ServerInterceptor
+      class ClearConnectionInterceptor < GRPC_KIT::ServerInterceptor
         def request_response(*)
           Rails.application.executor.wrap do
             ActiveRecord::Base.connection_pool.with_connection do

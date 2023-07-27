@@ -5,7 +5,7 @@ gem "sentry-ruby"
 module Griffin
   module Interceptors
     module Server
-      class SentryInterceptor < GRPC::ServerInterceptor
+      class SentryInterceptor < GRPC_KIT::ServerInterceptor
         TRANSACTION_OP = "griffin"
 
         def request_response(request: nil, call: nil, method: nil)
@@ -30,15 +30,15 @@ module Griffin
 
               begin
                 response = yield
-              rescue GRPC::BadStatus => e
+              rescue GRPC_KIT::BadStatus => e
                 finish_transaction(transaction, e.code)
                 raise e
               rescue => e
-                GRPC.logger.error("Internal server error: #{e}")
+                GRPC_KIT.logger.error("Internal server error: #{e}")
                 finish_transaction(transaction, GrpcKit::StatusCodes::INTERNAL)
                 Sentry.capture_exception(e)
 
-                raise GRPC::Unknown.new("Internal server error")
+                raise GRPC_KIT::Unknown.new("Internal server error")
               end
 
               finish_transaction(transaction, GrpcKit::StatusCodes::OK)

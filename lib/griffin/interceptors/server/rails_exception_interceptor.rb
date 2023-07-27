@@ -3,19 +3,19 @@
 module Griffin
   module Interceptors
     module Server
-      class RailsExceptionInterceptor < GRPC::ServerInterceptor
+      class RailsExceptionInterceptor < GRPC_KIT::ServerInterceptor
         def request_response(*)
           begin
             yield
           rescue ActiveRecord::RecordNotFound => e
             capture_exception_if_defined(e)
-            raise GRPC::NotFound.new(e.message)
+            raise GRPC_KIT::NotFound.new(e.message)
           rescue ActiveRecord::StaleObjectError => e
             capture_exception_if_defined(e)
-            raise GRPC::Aborted.new(e.message)
+            raise GRPC_KIT::Aborted.new(e.message)
           rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved => e
             capture_exception_if_defined(e)
-            raise GRPC::FailedPrecondition.new(e.message)
+            raise GRPC_KIT::FailedPrecondition.new(e.message)
           end
         end
 

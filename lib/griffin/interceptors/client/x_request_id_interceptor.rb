@@ -5,7 +5,7 @@ require 'securerandom'
 module Griffin
   module Interceptors
     module Client
-      class XRequestIdInterceptor < GRPC::ClientInterceptor
+      class XRequestIdInterceptor < GRPC_KIT::ClientInterceptor
         KEY = 'x-request-id'
 
         def request_response(call: nil, **)

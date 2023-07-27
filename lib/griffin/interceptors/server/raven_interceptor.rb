@@ -5,7 +5,7 @@ gem 'sentry-raven'
 module Griffin
   module Interceptors
     module Server
-      class RavenInterceptor < GRPC::ServerInterceptor
+      class RavenInterceptor < GRPC_KIT::ServerInterceptor
         def request_response(call: nil, **)
           if call.metadata['x-request-id']
             Raven.tags_context(request_id: call.metadata['x-request-id'])
@@ -14,12 +14,12 @@ module Griffin
           begin
             yield
           rescue => e
-            raise e if e.is_a?(GRPC::BadStatus)
+            raise e if e.is_a?(GRPC_KIT::BadStatus)
 
-            GRPC.logger.error("Internal server error: #{e.message}")
+            GRPC_KIT.logger.error("Internal server error: #{e.message}")
             Raven.capture_exception(e)
 
-            raise GRPC::Unknown.new('Internal server error')
+            raise GRPC_KIT::Unknown.new('Internal server error')
           end
         ensure
           Raven::Context.clear!

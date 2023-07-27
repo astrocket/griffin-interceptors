@@ -3,7 +3,7 @@
 module Griffin
   module Interceptors
     module Client
-      class LoggingInterceptor < GRPC::ClientInterceptor
+      class LoggingInterceptor < GRPC_KIT::ClientInterceptor
         def request_response(call: nil, **)
           now = Time.now
           log = build_log(call, now)
@@ -12,19 +12,19 @@ module Griffin
             begin
               yield
             rescue => e
-              if e.is_a?(GRPC::BadStatus)
+              if e.is_a?(GRPC_KIT::BadStatus)
                 log['grpc.code'] = e.code
               else
                 log['grpc.code'] = '2' # UNKNOWN
               end
 
               log['grpc.duration'] = (Time.now - now).to_s
-              GRPC.logger.info(log)
+              GRPC_KIT.logger.info(log)
               raise e
             end
 
           log['grpc.duration'] = (Time.now - now).to_s
-          GRPC.logger.info(log)
+          GRPC_KIT.logger.info(log)
           resp
         end
 

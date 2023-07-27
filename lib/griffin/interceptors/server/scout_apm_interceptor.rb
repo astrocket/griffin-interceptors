@@ -8,7 +8,7 @@ require 'scout_apm/request_manager'
 module Griffin
   module Interceptors
     module Server
-      class ScoutApmInterceptor < GRPC::ServerInterceptor
+      class ScoutApmInterceptor < GRPC_KIT::ServerInterceptor
         # Specify the controller layer so that the transaction gets categorized as a web transaction.
         LAYER_TYPE = 'Controller'
 

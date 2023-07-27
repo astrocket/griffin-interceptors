@@ -5,7 +5,7 @@ require 'get_process_mem'
 module Griffin
   module Interceptors
     module Server
-      class WorkerKillerInterceptor < GRPC::ServerInterceptor
+      class WorkerKillerInterceptor < GRPC_KIT::ServerInterceptor
         def initialize(memory_limit_min: 1024**3, memory_limit_max: 2 * (1024**3), check_cycle: 16)
           @worker_memory_limit_max = memory_limit_max
           @worker_memory_limit_min = memory_limit_min

@@ -5,7 +5,7 @@ require 'griffin/interceptors/server/payload_streamer'
 module Griffin
   module Interceptors
     module Server
-      class PayloadInterceptor < GRPC::ServerInterceptor
+      class PayloadInterceptor < GRPC_KIT::ServerInterceptor
         def request_response(request: nil, call: nil, **)
           logs = {}
 
@@ -13,11 +13,11 @@ module Griffin
             logs['grpc.x_request_id'] = call.metadata['x-request-id']
           end
 
-          GRPC.logger.info(logs.merge('grpc.request.content' => extract_content(request)))
+          GRPC_KIT.logger.info(logs.merge('grpc.request.content' => extract_content(request)))
 
           yield.tap do |resp|
             logs['grpc.response.content'] = extract_content(resp)
-            GRPC.logger.info(logs)
+            GRPC_KIT.logger.info(logs)
           end
         end
 
@@ -28,7 +28,7 @@ module Griffin
             logs['grpc.x_request_id'] = call.metadata['x-request-id']
           end
 
-          yield(Griffin::Interceptors::Server::PayloadStreamer.new(call, GRPC.logger, logs))
+          yield(Griffin::Interceptors::Server::PayloadStreamer.new(call, GRPC_KIT.logger, logs))
         end
 
         alias_method :client_streamer, :server_streamer

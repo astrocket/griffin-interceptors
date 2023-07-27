@@ -29,7 +29,7 @@ module Griffin
             logs['grpc.x_request_id'] = call.metadata['x-request-id']
           end
 
-          yield(Griffin::Interceptors::Client::PayloadStreamer.new(call, GRPC.logger, logs, @parameter_filter))
+          yield(Griffin::Interceptors::Client::PayloadStreamer.new(call, GRPC_KIT.logger, logs, @parameter_filter))
         end
 
         private

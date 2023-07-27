@@ -5,7 +5,7 @@ gem 'newrelic_rpm'
 module Griffin
   module Interceptors
     module Server
-      class NewRelicInterceptor < GRPC::ServerInterceptor
+      class NewRelicInterceptor < GRPC_KIT::ServerInterceptor
         def initialize(ignored_services: [])
           @ignored_services = ignored_services.map(&:service_name)
         end

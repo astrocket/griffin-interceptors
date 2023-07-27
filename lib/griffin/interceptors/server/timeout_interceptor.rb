@@ -5,7 +5,7 @@ require 'timeout'
 module Griffin
   module Interceptors
     module Server
-      class TimeoutInterceptor < GRPC::ServerInterceptor
+      class TimeoutInterceptor < GRPC_KIT::ServerInterceptor
         DEFAULT_TIMEOUT = 5
 
         def initialize(timeout = DEFAULT_TIMEOUT)
